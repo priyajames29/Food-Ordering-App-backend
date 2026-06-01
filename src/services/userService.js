@@ -1,3 +1,4 @@
+import { where } from "sequelize";
 import { User } from "../models/User.js";
 
 export async function getAllUsers() {
@@ -5,9 +6,22 @@ export async function getAllUsers() {
 }
 
 export async function createUser(data) {
-    try{
+    try {
         return await User.create(data);
-    } catch(error) {
+    } catch (error) {
+        throw error
+    }
+}
+
+export async function getUserFromId(params) {
+    try {
+        const data = await User.findOne({
+            where: {
+                id: params.id
+            }
+        });
+        return data
+    } catch (error) {
         throw error
     }
 }
