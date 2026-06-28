@@ -7,7 +7,7 @@ import {
   deleteUser,
 } from "../controllers/userController.js";
 
-export const userRoutes = express.Router();
+const userRoutes = express.Router();
 
 userRoutes.get("/", getUsers);
 userRoutes.get("/:id", getUserFromIdController);
