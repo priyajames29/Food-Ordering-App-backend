@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import app from "./app.js";
 import sequelize from "./config/database.js";
 
+import "./models/index.js";
+
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
@@ -12,7 +14,9 @@ async function startServer() {
 
     console.log("Database connected");
 
-    await sequelize.sync();
+    await sequelize.sync({
+      alter: true,
+    });
 
     console.log("Models synced");
 

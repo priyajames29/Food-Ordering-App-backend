@@ -28,6 +28,7 @@ export async function getUserFromId(params) {
 
 //Model.update(values, options)
 export async function updateUserService(id, body) {
+  console.log(body);
   try {
     return await User.update(body, {
       where: {
