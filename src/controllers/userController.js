@@ -4,14 +4,20 @@ import {
   getUserFromId,
   updateUserService,
   deleteUserService,
+  loginUserService,
 } from "../services/userService.js";
 import { createUserSchema } from "../validators/userValidator.js";
 
 export async function getUsers(req, res) {
   const users = await getAllUsers();
-  console.log("get /users");
 
   res.json({ users });
+}
+
+export async function getLoginUser(req, res) {
+  const loggedIn = await loginUserService(req.body);
+
+  res.json({ loggedIn });
 }
 
 export async function createUserController(req, res) {

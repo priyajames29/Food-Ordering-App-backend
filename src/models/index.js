@@ -5,7 +5,7 @@ import { Restaurant } from "./Restaurant.js";
 import { User } from "./User.js";
 
 // Associations
-Restaurant.hasMany(MenuItem, {
+Restaurant.hasMany(MenuItems, {
   foreignKey: "restaurantId",
 });
 
@@ -58,7 +58,7 @@ MenuItems.hasMany(OrderItems, {
   as: "orderItems",
 });
 
-OrderItems.belongsTo(MenuItem, {
+OrderItems.belongsTo(MenuItems, {
   foreignKey: "menuItemId",
   as: "menuItem",
 });
