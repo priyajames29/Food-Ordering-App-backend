@@ -1,6 +1,7 @@
 import { where } from "sequelize";
 import { User } from "../models/User.js";
 import { comparePassword, hashPassword } from "../utils/password.js";
+import { generateAccessToken } from "../utils/jwt.js";
 
 export async function getAllUsers() {
   return await User.findAll();
@@ -20,12 +21,15 @@ export async function createUser(data) {
 
 export async function loginUserService(data) {
   try {
-    console.log(data);
     const user = await User.findOne({
       where: {
         email: data.email,
       },
     });
+
+    if (!user) {
+      throw new Error("Invalid email or password");
+    }
 
     const isMatch = await comparePassword(data.password, user.password);
     if (isMatch) {
@@ -34,7 +38,17 @@ export async function loginUserService(data) {
       console.log("Access denied: Invalid password.");
     }
 
-    return isMatch;
+    const token = await generateAccessToken(user);
+
+    return {
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    };
   } catch (error) {
     throw new Error(error);
   }
@@ -57,11 +71,18 @@ export async function getUserFromId(params) {
 export async function updateUserService(id, body) {
   console.log(body);
   try {
-    return await User.update(body, {
-      where: {
-        id: id,
+    const hashedPassword = await hashPassword(body.password);
+    return await User.update(
+      {
+        ...body,
+        password: hashedPassword,
       },
-    });
+      {
+        where: {
+          id: id,
+        },
+      },
+    );
   } catch (error) {
     throw error;
   }
