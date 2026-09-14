@@ -19,7 +19,12 @@ userRoutes.get(
   getUserFromIdController,
 );
 
-userRoutes.put("/:id", authenticateUser, updateUser);
+userRoutes.put(
+  "/:id",
+  authenticateUser,
+  authorizeRole(true, "admin"),
+  updateUser,
+);
 
 userRoutes.delete("/:id", authenticateUser, authorizeRole("admin"), deleteUser);
 

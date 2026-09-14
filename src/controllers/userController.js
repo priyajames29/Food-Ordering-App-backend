@@ -49,7 +49,6 @@ export async function getUserFromIdController(req, res) {
 export async function updateUser(req, res) {
   try {
     const user = await getUserFromId(req.params);
-    let result;
     if (user) {
       await updateUserService(user.dataValues.id, req.body);
     } else {
