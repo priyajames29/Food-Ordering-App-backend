@@ -5,7 +5,6 @@ import {
   getUserFromIdController,
   updateUser,
   deleteUser,
-  getLoginUser,
 } from "../controllers/userController.js";
 import { authenticateUser } from "../middlewares/authenticateUser.js";
 import { authorizeRole } from "../middlewares/authorizeRole.js";
@@ -13,12 +12,15 @@ import { authorizeRole } from "../middlewares/authorizeRole.js";
 const userRoutes = express.Router();
 
 userRoutes.get("/", authenticateUser, authorizeRole("admin"), getUsers);
-userRoutes.get("/:id", getUserFromIdController);
+userRoutes.get(
+  "/:id",
+  authenticateUser,
+  authorizeRole("admin"),
+  getUserFromIdController,
+);
 
-userRoutes.post("/login", getLoginUser);
-userRoutes.post("/", createUserController);
-userRoutes.put("/:id", updateUser);
+userRoutes.put("/:id", authenticateUser, updateUser);
 
-userRoutes.delete("/:id", deleteUser);
+userRoutes.delete("/:id", authenticateUser, authorizeRole("admin"), deleteUser);
 
 export default userRoutes;

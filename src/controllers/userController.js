@@ -22,11 +22,12 @@ export async function getLoginUser(req, res) {
 
 export async function createUserController(req, res) {
   try {
-    const validatedData = createUserSchema.parse(req.body);
+    const user = await createUser(req.body);
 
-    const user = await createUser(validatedData);
-
-    res.status(201).json(user);
+    res.status(201).json({
+      ...user.dataValues,
+      password: "***",
+    });
   } catch (error) {
     res.status(400).json({
       error: error.message,
