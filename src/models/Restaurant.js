@@ -19,12 +19,12 @@ export const Restaurant = sequelize.define("Restaurant", {
   },
 
   openingTime: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: true,
   },
 
   closingTime: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: true,
   },
 });

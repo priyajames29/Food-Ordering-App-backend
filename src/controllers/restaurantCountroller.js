@@ -15,9 +15,7 @@ export async function getRestaurants(req, res) {
 
 export async function createRestaurantController(req, res) {
   try {
-    const validatedData = createRestaurantSchema.parse(req.body);
-
-    const restaurant = await createRestaurant(validatedData);
+    const restaurant = await createRestaurant(req.body);
 
     res.status(201).json(restaurant);
   } catch (error) {

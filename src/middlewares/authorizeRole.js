@@ -1,4 +1,7 @@
-export function authorizeRole(update = false, ...roles) {
+export function authorizeRole(...args) {
+  const update = typeof args[0] === "boolean" ? args.shift() : false;
+  const roles = args;
+
   return (req, res, next) => {
     if (update) {
       console.log(req.user.id, req.params.id);
