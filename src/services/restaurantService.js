@@ -26,13 +26,30 @@ export async function getRestaurantFromId(params) {
 }
 
 export async function deleteRestaurantService(id) {
-  console.log("here", id);
   try {
     return Restaurant.destroy({
       where: {
         id: id,
       },
     });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function updateRestaurantService(body, restaurant) {
+  try {
+    return Restaurant.update(
+      {
+        ...restaurant,
+        ...body,
+      },
+      {
+        where: {
+          id: restaurant.id,
+        },
+      },
+    );
   } catch (error) {
     throw error;
   }

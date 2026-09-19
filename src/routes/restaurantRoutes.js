@@ -4,6 +4,7 @@ import {
   deleteRestaurant,
   getRestaurantFromIdController,
   getRestaurants,
+  updateRestaurant,
 } from "../controllers/restaurantCountroller.js";
 import { authenticateUser } from "../middlewares/authenticateUser.js";
 import { authorizeRole } from "../middlewares/authorizeRole.js";
@@ -21,6 +22,13 @@ restaurantRoutes.post(
   authorizeRole("restaurant_owner", "admin"),
   validateRequest(createRestaurantSchema),
   createRestaurantController,
+);
+
+restaurantRoutes.put(
+  "/:id",
+  authenticateUser,
+  authorizeRole("restaurant_owner", "admin"),
+  updateRestaurant,
 );
 
 restaurantRoutes.delete("/:id", deleteRestaurant);
