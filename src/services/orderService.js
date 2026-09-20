@@ -14,9 +14,7 @@ export async function createOrderService(userId, data) {
     });
 
     if (menuItems.length !== new Set(menuItemIds).size) {
-      throw new Error(
-        "One or more menu items are invalid for this restaurant",
-      );
+      throw new Error("One or more menu items are invalid for this restaurant");
     }
 
     const menuItemsById = new Map(menuItems.map((item) => [item.id, item]));
@@ -58,6 +56,27 @@ export async function createOrderService(userId, data) {
         transaction,
       });
     });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getOrdersService() {
+  try {
+    const orders = await Orders.findAll();
+    return orders;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getOrderByIdService(id) {
+  try {
+    const order = await Orders.findOne({
+      where: { id },
+      include: [{ model: OrderItems, as: "orderItems" }],
+    });
+    return order;
   } catch (error) {
     throw error;
   }
