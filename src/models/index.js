@@ -7,6 +7,7 @@ import { User } from "./User.js";
 // Associations
 Restaurant.hasMany(MenuItems, {
   foreignKey: "restaurantId",
+  as: "menu",
 });
 
 MenuItems.belongsTo(Restaurant, {
@@ -61,6 +62,11 @@ MenuItems.hasMany(OrderItems, {
 OrderItems.belongsTo(MenuItems, {
   foreignKey: "menuItemId",
   as: "menuItem",
+});
+
+User.hasMany(Restaurant, {
+  foreignKey: "userId",
+  as: "restaurants",
 });
 
 export { User, Restaurant, MenuItems, Orders, OrderItems };

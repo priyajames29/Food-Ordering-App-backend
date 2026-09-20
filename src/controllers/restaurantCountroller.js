@@ -16,7 +16,10 @@ export async function getRestaurants(req, res) {
 
 export async function createRestaurantController(req, res) {
   try {
-    const restaurant = await createRestaurant(req.body);
+    const restaurant = await createRestaurant({
+      ...req.body,
+      userId: req.user.id,
+    });
 
     res.status(201).json(restaurant);
   } catch (error) {

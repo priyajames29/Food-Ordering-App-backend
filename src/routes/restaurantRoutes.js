@@ -8,6 +8,7 @@ import {
 } from "../controllers/restaurantCountroller.js";
 import { authenticateUser } from "../middlewares/authenticateUser.js";
 import { authorizeRole } from "../middlewares/authorizeRole.js";
+import { checkRestaurantOwnership } from "../middlewares/checkRestaurantOwnership.js";
 import { validateRequest } from "../middlewares/validateRequest.js";
 import { createRestaurantSchema } from "../validators/restrauntValidator.js";
 
@@ -28,9 +29,16 @@ restaurantRoutes.put(
   "/:id",
   authenticateUser,
   authorizeRole("restaurant_owner", "admin"),
+  checkRestaurantOwnership,
   updateRestaurant,
 );
 
-restaurantRoutes.delete("/:id", deleteRestaurant);
+restaurantRoutes.delete(
+  "/:id",
+  authenticateUser,
+  authorizeRole("restaurant_owner", "admin"),
+  checkRestaurantOwnership,
+  deleteRestaurant,
+);
 
 export default restaurantRoutes;
