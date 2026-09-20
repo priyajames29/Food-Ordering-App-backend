@@ -1,7 +1,10 @@
 import {
   createMenuItemService,
+  deleteMenuItemService,
+  getMenuItemByIdService,
   getMenuItemsRestaurantService,
   getMenuItemsService,
+  updateMenuItemService,
 } from "../services/menuItemService.js";
 import { createMenuItemSchema } from "../validators/menuItemsValidator.js";
 
@@ -39,6 +42,38 @@ export async function createMenuItem(req, res) {
     const validatedData = createMenuItemSchema.parse(req.body);
     const menuItems = await createMenuItemService(validatedData);
     res.status(201).json(menuItems);
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+}
+
+export async function updateMenuItem(req, res) {
+  try {
+    const menuItem = await getMenuItemByIdService(req.params);
+    if (menuItem) {
+      await updateMenuItemService(req.body, menuItem.dataValues);
+      res.status(200).json({ message: "updated" });
+    } else {
+      res.status(404).json({ message: "Menu item not found" });
+    }
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+  }
+}
+
+export async function deleteMenuItem(req, res) {
+  try {
+    const menuItem = await getMenuItemByIdService(req.params);
+    if (menuItem) {
+      await deleteMenuItemService(req.params.id);
+      res.status(200).json({ message: "deleted" });
+    } else {
+      res.status(404).json({ message: "Menu item not found" });
+    }
   } catch (error) {
     res.status(400).json({
       error: error.message,
