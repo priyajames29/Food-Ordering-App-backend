@@ -1,15 +1,23 @@
 import express from "express";
 import { authenticateUser } from "../middlewares/authenticateUser.js";
 import { authorizeRole } from "../middlewares/authorizeRole.js";
-import { createMenuItem } from "../controllers/menuItemsController.js";
+import {
+  createMenuItem,
+  getMenuItems,
+  getMenuItemsRestaurant,
+} from "../controllers/menuItemsController.js";
 
-const menuItems = express.Router();
+const menuItemsRoutes = express.Router();
 
-menuItems.post(
+menuItemsRoutes.get("/", getMenuItems);
+
+menuItemsRoutes.get("/:restaurantId", getMenuItemsRestaurant);
+
+menuItemsRoutes.post(
   "/",
   authenticateUser,
   authorizeRole("restaurant_owner", "admin"),
   createMenuItem,
 );
 
-export default menuItems;
+export default menuItemsRoutes;
