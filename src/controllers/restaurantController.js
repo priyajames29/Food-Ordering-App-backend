@@ -2,16 +2,16 @@ import { Roles } from "../constants/roles.js";
 import {
   createRestaurant,
   deleteRestaurantService,
-  getAllRestaurant,
   getRestaurantsForUser,
   getRestaurantFromId,
   updateRestaurantService,
+  getAllRestaurants,
 } from "../services/restaurantService.js";
 import { sendError } from "../utils/errors.js";
 
 export async function getRestaurants(req, res) {
   try {
-    const restaurant = await getAllRestaurant();
+    const restaurant = await getAllRestaurants();
     res.json({ restaurant });
   } catch (error) {
     sendError(res, error);
