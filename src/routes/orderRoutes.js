@@ -1,4 +1,5 @@
 import express from "express";
+import { Roles } from "../constants/roles.js";
 import { authenticateUser } from "../middlewares/authenticateUser.js";
 import { authorizeRole } from "../middlewares/authorizeRole.js";
 import { validateRequest } from "../middlewares/validateRequest.js";
@@ -14,7 +15,7 @@ const orderRoutes = express.Router();
 orderRoutes.post(
   "/",
   authenticateUser,
-  authorizeRole("customer", "admin"),
+  authorizeRole(Roles.CUSTOMER, Roles.ADMIN),
   validateRequest(createOrderSchema),
   placeOrder,
 );
@@ -22,14 +23,14 @@ orderRoutes.post(
 orderRoutes.get(
   "/",
   authenticateUser,
-  authorizeRole("customer", "admin"),
+  authorizeRole(Roles.CUSTOMER, Roles.ADMIN, Roles.RESTAURANT_OWNER),
   getOrders,
 );
 
 orderRoutes.get(
   "/:id",
   authenticateUser,
-  authorizeRole("customer", "admin"),
+  authorizeRole(Roles.CUSTOMER, Roles.ADMIN),
   getOrderById,
 );
 

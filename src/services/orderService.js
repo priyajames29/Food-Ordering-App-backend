@@ -2,6 +2,7 @@ import sequelize from "../config/database.js";
 import { MenuItems } from "../models/MenuItems.js";
 import { Orders } from "../models/Orders.js";
 import { OrderItems } from "../models/OrderItems.js";
+import { Restaurant } from "../models/Restaurant.js";
 
 export async function createOrderService(userId, data) {
   const { restaurantId, items } = data;
@@ -61,10 +62,20 @@ export async function createOrderService(userId, data) {
   }
 }
 
-export async function getOrdersService() {
+export async function getAllOrdersService() {
   try {
     const orders = await Orders.findAll();
     return orders;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function getOrderForRestraunt(userId) {
+  try {
+    const restaurants = await Restaurant.findAll({
+      where: { userId },
+    });
   } catch (error) {
     throw error;
   }

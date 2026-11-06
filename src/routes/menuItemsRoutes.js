@@ -1,4 +1,5 @@
 import express from "express";
+import { Roles } from "../constants/roles.js";
 import { authenticateUser } from "../middlewares/authenticateUser.js";
 import { authorizeRole } from "../middlewares/authorizeRole.js";
 import {
@@ -18,21 +19,21 @@ menuItemsRoutes.get("/:restaurantId", getMenuItemsRestaurant);
 menuItemsRoutes.post(
   "/",
   authenticateUser,
-  authorizeRole("restaurant_owner", "admin"),
+  authorizeRole(Roles.RESTAURANT_OWNER, Roles.ADMIN),
   createMenuItem,
 );
 
 menuItemsRoutes.put(
   "/:id",
   authenticateUser,
-  authorizeRole("restaurant_owner", "admin"),
+  authorizeRole(Roles.RESTAURANT_OWNER, Roles.ADMIN),
   updateMenuItem,
 );
 
 menuItemsRoutes.delete(
   "/:id",
   authenticateUser,
-  authorizeRole("restaurant_owner", "admin"),
+  authorizeRole(Roles.RESTAURANT_OWNER, Roles.ADMIN),
   deleteMenuItem,
 );
 

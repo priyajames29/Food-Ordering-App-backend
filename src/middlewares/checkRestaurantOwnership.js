@@ -1,8 +1,9 @@
+import { Roles } from "../constants/roles.js";
 import { Restaurant } from "../models/Restaurant.js";
 
 export async function checkRestaurantOwnership(req, res, next) {
   try {
-    if (req.user.role === "admin") {
+    if (req.user.role === Roles.ADMIN) {
       return next();
     }
 

@@ -1,7 +1,9 @@
+import { Roles } from "../constants/roles.js";
 import {
   createOrderService,
+  getAllOrdersService,
   getOrderByIdService,
-  getOrdersService,
+  getOrderForRestraunt,
 } from "../services/orderService.js";
 
 export async function placeOrder(req, res) {
@@ -17,7 +19,14 @@ export async function placeOrder(req, res) {
 
 export async function getOrders(req, res) {
   try {
-    const orders = await getOrdersService();
+    const userRole = req.user?.role;
+    let orders = [];
+    if (userRole === Roles.ADMIN) {
+      orders = await getAllOrdersService();
+    }
+    if (userRole === Roles.RESTAURANT_OWNER) {
+      orders = await getOrderForRestraunt(req.user?.id);
+    }
     res.status(200).json(orders);
   } catch (error) {
     res.status(400).json({
@@ -34,7 +43,7 @@ export async function getOrderById(req, res) {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    if (req.user.role !== "admin" && order.userId !== req.user.id) {
+    if (req.user.role !== Roles.ADMIN && order.userId !== req.user.id) {
       return res.status(403).json({ message: "Access denied" });
     }
 

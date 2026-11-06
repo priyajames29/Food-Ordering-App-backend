@@ -1,4 +1,5 @@
 import express from "express";
+import { Roles } from "../constants/roles.js";
 import {
   createRestaurantController,
   deleteRestaurant,
@@ -20,7 +21,7 @@ restaurantRoutes.get("/:id", getRestaurantFromIdController);
 restaurantRoutes.post(
   "/",
   authenticateUser,
-  authorizeRole("restaurant_owner", "admin"),
+  authorizeRole(Roles.RESTAURANT_OWNER, Roles.ADMIN),
   validateRequest(createRestaurantSchema),
   createRestaurantController,
 );
@@ -28,7 +29,7 @@ restaurantRoutes.post(
 restaurantRoutes.put(
   "/:id",
   authenticateUser,
-  authorizeRole("restaurant_owner", "admin"),
+  authorizeRole(Roles.RESTAURANT_OWNER, Roles.ADMIN),
   checkRestaurantOwnership,
   updateRestaurant,
 );
@@ -36,7 +37,7 @@ restaurantRoutes.put(
 restaurantRoutes.delete(
   "/:id",
   authenticateUser,
-  authorizeRole("restaurant_owner", "admin"),
+  authorizeRole(Roles.RESTAURANT_OWNER, Roles.ADMIN),
   checkRestaurantOwnership,
   deleteRestaurant,
 );
