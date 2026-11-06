@@ -37,3 +37,14 @@ export async function getOrSetCache(key, ttlSeconds, fetchData) {
   // 5. Return the database result
   return data;
 }
+
+export async function deleteCache(key) {
+  if (!redisClient.isReady) return;
+
+  try {
+    await redisClient.del(key);
+    console.log("CACHE DELETED:", key);
+  } catch (error) {
+    console.error("Redis DEL failed:", error.message);
+  }
+}
