@@ -7,12 +7,15 @@ import {
   deleteMenuItem,
   getMenuItems,
   getMenuItemsRestaurant,
+  getTopMenuItemsController,
   updateMenuItem,
 } from "../controllers/menuItemsController.js";
 
 const menuItemsRoutes = express.Router();
 
 menuItemsRoutes.get("/", getMenuItems);
+
+menuItemsRoutes.get("/top", getTopMenuItemsController);
 
 menuItemsRoutes.get("/:restaurantId", getMenuItemsRestaurant);
 

@@ -7,8 +7,12 @@ import {
   getOrderById,
   getOrders,
   placeOrder,
+  updateOrderStatus,
 } from "../controllers/orderController.js";
-import { createOrderSchema } from "../validators/orderValidator.js";
+import {
+  createOrderSchema,
+  updateOrderStatusSchema,
+} from "../validators/orderValidator.js";
 
 const orderRoutes = express.Router();
 
@@ -32,6 +36,14 @@ orderRoutes.get(
   authenticateUser,
   authorizeRole(Roles.CUSTOMER, Roles.ADMIN),
   getOrderById,
+);
+
+orderRoutes.patch(
+  "/:id/status",
+  authenticateUser,
+  authorizeRole(Roles.CUSTOMER, Roles.ADMIN, Roles.RESTAURANT_OWNER),
+  validateRequest(updateOrderStatusSchema),
+  updateOrderStatus,
 );
 
 export default orderRoutes;

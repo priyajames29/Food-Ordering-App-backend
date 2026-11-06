@@ -4,6 +4,7 @@ import {
   getMenuItemByIdService,
   getMenuItemsRestaurantService,
   getMenuItemsService,
+  getTopMenuItems,
   updateMenuItemService,
 } from "../services/menuItemService.js";
 import { createMenuItemSchema } from "../validators/menuItemsValidator.js";
@@ -77,5 +78,18 @@ export async function deleteMenuItem(req, res) {
     res.status(400).json({
       error: error.message,
     });
+  }
+}
+
+export async function getTopMenuItemsController(req, res, next) {
+  try {
+    const menuItems = await getTopMenuItems();
+
+    return res.status(200).json(menuItems);
+  } catch (error) {
+    res.status(400).json({
+      error: error.message,
+    });
+    // next(error);
   }
 }

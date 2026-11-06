@@ -5,6 +5,7 @@ import {
   getOrderByIdService,
   getOrdersForCustomerService,
   getOrdersForRestaurantOwnerService,
+  updateOrderStatusService,
 } from "../services/orderService.js";
 import { sendError } from "../utils/errors.js";
 
@@ -46,6 +47,19 @@ export async function getOrderById(req, res) {
       return res.status(403).json({ message: "Access denied" });
     }
 
+    res.status(200).json(order);
+  } catch (error) {
+    sendError(res, error);
+  }
+}
+
+export async function updateOrderStatus(req, res) {
+  try {
+    const order = await updateOrderStatusService(
+      req.params.id,
+      req.body.status,
+      req.user,
+    );
     res.status(200).json(order);
   } catch (error) {
     sendError(res, error);
