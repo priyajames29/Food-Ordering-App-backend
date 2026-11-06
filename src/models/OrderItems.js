@@ -1,11 +1,13 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../config/database.js";
-import { Restaurant } from "./Restaurant.js";
 
 export const OrderItems = sequelize.define("OrderItems", {
   quantity: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
+    validate: {
+      min: 1,
+    },
   },
 
   price: {

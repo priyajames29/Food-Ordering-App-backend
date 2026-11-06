@@ -1,17 +1,33 @@
+import { Roles } from "../constants/roles.js";
 import {
   createRestaurant,
   deleteRestaurantService,
   getAllRestaurant,
+  getRestaurantsForUser,
   getRestaurantFromId,
   updateRestaurantService,
 } from "../services/restaurantService.js";
-import { createRestaurantSchema } from "../validators/restrauntValidator.js";
+import { sendError } from "../utils/errors.js";
 
 export async function getRestaurants(req, res) {
-  const restaurant = await getAllRestaurant();
-  console.log("get /Restaurant");
+  try {
+    const restaurant = await getAllRestaurant();
+    res.json({ restaurant });
+  } catch (error) {
+    sendError(res, error);
+  }
+}
 
-  res.json({ restaurant });
+export async function getMyRestaurants(req, res) {
+  try {
+    const restaurant =
+      req.user.role === Roles.ADMIN
+        ? await getAllRestaurant()
+        : await getRestaurantsForUser(req.user.id);
+    res.json({ restaurant });
+  } catch (error) {
+    sendError(res, error);
+  }
 }
 
 export async function createRestaurantController(req, res) {
@@ -63,9 +79,9 @@ export async function deleteRestaurant(req, res) {
       await deleteRestaurantService(req.params.id);
       res.status(201).json({ message: "deleted" });
     } else {
-      res.status(201).json({ message: "Restraunt not found" });
+      res.status(404).json({ message: "Restaurant not found" });
     }
   } catch (error) {
-    throw error;
+    sendError(res, error);
   }
 }

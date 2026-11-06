@@ -6,7 +6,7 @@ export const createOrderSchema = z.object({
     .array(
       z.object({
         menuItemId: z.number(),
-        quantity: z.number().min(1),
+        quantity: z.number().int().min(1),
       }),
     )
     .min(1),

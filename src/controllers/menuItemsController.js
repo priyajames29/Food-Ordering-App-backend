@@ -27,7 +27,6 @@ export async function getMenuItems(req, res) {
 
 export async function getMenuItemsRestaurant(req, res) {
   try {
-    console.log("controller");
     const menuItems = await getMenuItemsRestaurantService(req.params);
     res.json({ menuItems });
   } catch (error) {

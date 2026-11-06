@@ -7,6 +7,7 @@ import {
   loginUserService,
 } from "../services/userService.js";
 import { createUserSchema } from "../validators/userValidator.js";
+import { sendError } from "../utils/errors.js";
 
 export async function getUsers(req, res) {
   const users = await getAllUsers();
@@ -15,9 +16,12 @@ export async function getUsers(req, res) {
 }
 
 export async function getLoginUser(req, res) {
-  const loggedIn = await loginUserService(req.body);
-
-  res.json({ loggedIn });
+  try {
+    const loggedIn = await loginUserService(req.body);
+    res.json({ loggedIn });
+  } catch (error) {
+    sendError(res, error);
+  }
 }
 
 export async function createUserController(req, res) {
@@ -56,7 +60,7 @@ export async function updateUser(req, res) {
     }
     res.status(201).json({ message: "updated" });
   } catch (error) {
-    throw error;
+    sendError(res, error);
   }
 }
 
@@ -70,6 +74,6 @@ export async function deleteUser(req, res) {
       res.status(201).json({ message: "user not found" });
     }
   } catch (error) {
-    throw error;
+    sendError(res, error);
   }
 }

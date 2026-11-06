@@ -16,7 +16,7 @@ export const Orders = sequelize.define("Orders", {
   },
 
   orderedAt: {
-    type: DataTypes.STRING,
+    type: DataTypes.DATE,
     allowNull: false,
   },
 });

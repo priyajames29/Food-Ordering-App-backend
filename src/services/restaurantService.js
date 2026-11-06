@@ -1,56 +1,28 @@
 import { Restaurant } from "../models/Restaurant.js";
 
 export async function getAllRestaurant() {
-  return await Restaurant.findAll();
+  return Restaurant.findAll();
+}
+
+export async function getRestaurantsForUser(userId) {
+  return Restaurant.findAll({ where: { userId } });
 }
 
 export async function createRestaurant(data) {
-  try {
-    return await Restaurant.create(data);
-  } catch (error) {
-    throw error;
-  }
+  return Restaurant.create(data);
 }
 
 export async function getRestaurantFromId(params) {
-  try {
-    const data = await Restaurant.findOne({
-      where: {
-        id: params.id,
-      },
-    });
-    return data;
-  } catch (error) {
-    throw error;
-  }
+  return Restaurant.findOne({ where: { id: params.id } });
 }
 
 export async function deleteRestaurantService(id) {
-  try {
-    return Restaurant.destroy({
-      where: {
-        id: id,
-      },
-    });
-  } catch (error) {
-    throw error;
-  }
+  return Restaurant.destroy({ where: { id } });
 }
 
 export async function updateRestaurantService(body, restaurant) {
-  try {
-    return Restaurant.update(
-      {
-        ...restaurant,
-        ...body,
-      },
-      {
-        where: {
-          id: restaurant.id,
-        },
-      },
-    );
-  } catch (error) {
-    throw error;
-  }
+  return Restaurant.update(
+    { ...restaurant, ...body },
+    { where: { id: restaurant.id } },
+  );
 }

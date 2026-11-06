@@ -4,7 +4,6 @@ import { Orders } from "./Orders.js";
 import { Restaurant } from "./Restaurant.js";
 import { User } from "./User.js";
 
-// Associations
 Restaurant.hasMany(MenuItems, {
   foreignKey: "restaurantId",
   as: "menu",
@@ -24,7 +23,6 @@ Orders.belongsTo(User, {
   as: "user",
 });
 
-// Restaurant -> Order
 Restaurant.hasMany(Orders, {
   foreignKey: "restaurantId",
   as: "orders",
@@ -35,9 +33,6 @@ Orders.belongsTo(Restaurant, {
   as: "restaurant",
 });
 
-// ==============================
-// Order -> Order Items
-// ==============================
 
 Orders.hasMany(OrderItems, {
   foreignKey: "orderId",
@@ -50,9 +45,6 @@ OrderItems.belongsTo(Orders, {
   as: "order",
 });
 
-// ==============================
-// Menu Item -> Order Items
-// ==============================
 
 MenuItems.hasMany(OrderItems, {
   foreignKey: "menuItemId",

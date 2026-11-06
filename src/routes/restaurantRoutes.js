@@ -3,19 +3,28 @@ import { Roles } from "../constants/roles.js";
 import {
   createRestaurantController,
   deleteRestaurant,
+  getMyRestaurants,
   getRestaurantFromIdController,
   getRestaurants,
   updateRestaurant,
-} from "../controllers/restaurantCountroller.js";
+} from "../controllers/restaurantController.js";
 import { authenticateUser } from "../middlewares/authenticateUser.js";
 import { authorizeRole } from "../middlewares/authorizeRole.js";
 import { checkRestaurantOwnership } from "../middlewares/checkRestaurantOwnership.js";
 import { validateRequest } from "../middlewares/validateRequest.js";
-import { createRestaurantSchema } from "../validators/restrauntValidator.js";
+import { createRestaurantSchema } from "../validators/restaurantValidator.js";
 
 const restaurantRoutes = express.Router();
 
 restaurantRoutes.get("/", getRestaurants);
+
+restaurantRoutes.get(
+  "/mine",
+  authenticateUser,
+  authorizeRole(Roles.ADMIN, Roles.RESTAURANT_OWNER),
+  getMyRestaurants,
+);
+
 restaurantRoutes.get("/:id", getRestaurantFromIdController);
 
 restaurantRoutes.post(
