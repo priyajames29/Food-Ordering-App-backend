@@ -4,10 +4,14 @@ import restaurantRoutes from "./routes/restaurantRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import menuItemsRoutes from "./routes/menuItemsRoutes.js";
+import requestLogger from "./middlewares/requestLogger.js";
 
 const app = express();
 
 app.use(express.json());
+
+// Request logging
+app.use(requestLogger);
 
 app.get("/", (req, res) => {
   res.json({

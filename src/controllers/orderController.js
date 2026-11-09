@@ -1,3 +1,4 @@
+import logger from "../config/logger.js";
 import { Roles } from "../constants/roles.js";
 import { queueOrderPlacedNotification } from "../services/notificationService.js";
 import {
@@ -13,6 +14,7 @@ import { sendError } from "../utils/errors.js";
 export async function placeOrder(req, res) {
   try {
     const order = await createOrderService(req.user.id, req.body);
+    logger.info({ orderId: order.id }, "Order created");
 
     await queueOrderPlacedNotification({
       customerEmail: req.user.email,
@@ -22,6 +24,7 @@ export async function placeOrder(req, res) {
 
     res.status(201).json(order);
   } catch (error) {
+    logger.error({ err: error }, "Order creation failed");
     sendError(res, error);
   }
 }
