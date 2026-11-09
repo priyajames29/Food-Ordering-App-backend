@@ -28,12 +28,12 @@ export async function getRestaurantsForUser(userId) {
 }
 
 export async function createRestaurant(data) {
-  const data = Restaurant.create(data);
+  const res = Restaurant.create(data);
 
   // Database write succeeded. Remove stale cache.
   await deleteCache(RESTAURANTS_CACHE_KEY);
 
-  return data;
+  return res;
 }
 
 export async function getRestaurantFromId(params) {

@@ -1,4 +1,5 @@
 import { Roles } from "../constants/roles.js";
+import { queueOrderPlacedNotification } from "../services/notificationService.js";
 import {
   createOrderService,
   getAllOrdersService,
@@ -12,6 +13,13 @@ import { sendError } from "../utils/errors.js";
 export async function placeOrder(req, res) {
   try {
     const order = await createOrderService(req.user.id, req.body);
+
+    await queueOrderPlacedNotification({
+      customerEmail: req.user.email,
+      restaurantEmail: order.restaurantEmail,
+      orderId: order.id,
+    });
+
     res.status(201).json(order);
   } catch (error) {
     sendError(res, error);
