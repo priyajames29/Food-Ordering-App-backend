@@ -6,6 +6,8 @@ import authRoutes from "./routes/authRoutes.js";
 import menuItemsRoutes from "./routes/menuItemsRoutes.js";
 import requestLogger from "./middlewares/requestLogger.js";
 import apiLimiter from "./config/rateLimiter.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.js";
 
 const app = express();
 
@@ -27,5 +29,7 @@ app.use("/restaurants", restaurantRoutes);
 app.use("/menu-items", menuItemsRoutes);
 app.use("/orders", orderRoutes);
 app.use("/auth", authRoutes);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 export default app;
