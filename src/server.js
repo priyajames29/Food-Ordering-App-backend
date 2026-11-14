@@ -26,7 +26,7 @@ async function startServer() {
     try {
       await redisClient.connect();
     } catch (error) {
-      console.error("Redis unavailable:", error.message);
+      logger.error("Redis unavailable:");
       console.log("Application will continue without caching");
     }
     logger.info("Redis connected successfully");

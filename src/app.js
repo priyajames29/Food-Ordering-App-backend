@@ -5,6 +5,7 @@ import orderRoutes from "./routes/orderRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import menuItemsRoutes from "./routes/menuItemsRoutes.js";
 import requestLogger from "./middlewares/requestLogger.js";
+import apiLimiter from "./config/rateLimiter.js";
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.use(express.json());
 
 // Request logging
 app.use(requestLogger);
+
+app.use(apiLimiter);
 
 app.get("/", (req, res) => {
   res.json({

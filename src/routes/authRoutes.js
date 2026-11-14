@@ -5,10 +5,11 @@ import {
 } from "../controllers/userController.js";
 import { createUserSchema } from "../validators/userValidator.js";
 import { validateRequest } from "../middlewares/validateRequest.js";
+import { authLimiter } from "../config/rateLimiter.js";
 
 const authRoutes = express.Router();
 
-authRoutes.post("/login", getLoginUser);
+authRoutes.post("/login", authLimiter, getLoginUser);
 authRoutes.post(
   "/register",
   validateRequest(createUserSchema),
