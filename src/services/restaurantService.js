@@ -28,7 +28,7 @@ export async function getRestaurantsForUser(userId) {
 }
 
 export async function createRestaurant(data) {
-  const res = Restaurant.create(data);
+  const res = await Restaurant.create(data);
 
   // Database write succeeded. Remove stale cache.
   await deleteCache(RESTAURANTS_CACHE_KEY);
@@ -37,11 +37,11 @@ export async function createRestaurant(data) {
 }
 
 export async function getRestaurantFromId(params) {
-  return Restaurant.findOne({ where: { id: params.id } });
+  return await Restaurant.findOne({ where: { id: params.id } });
 }
 
 export async function deleteRestaurantService(id) {
-  const data = Restaurant.destroy({ where: { id } });
+  const data = await Restaurant.destroy({ where: { id } });
 
   // Database write succeeded. Remove stale cache.
   await deleteCache(RESTAURANTS_CACHE_KEY);
@@ -50,7 +50,7 @@ export async function deleteRestaurantService(id) {
 }
 
 export async function updateRestaurantService(body, restaurant) {
-  const data = Restaurant.update(
+  const data = await Restaurant.update(
     { ...restaurant, ...body },
     { where: { id: restaurant.id } },
   );

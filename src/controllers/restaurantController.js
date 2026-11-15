@@ -22,7 +22,7 @@ export async function getMyRestaurants(req, res) {
   try {
     const restaurant =
       req.user.role === Roles.ADMIN
-        ? await getAllRestaurant()
+        ? await getAllRestaurants()
         : await getRestaurantsForUser(req.user.id);
     res.json({ restaurant });
   } catch (error) {
@@ -50,10 +50,10 @@ export async function updateRestaurant(req, res) {
     const restaurant = await getRestaurantFromId(req.params);
     if (restaurant) {
       await updateRestaurantService(req.body, restaurant.dataValues);
+      res.status(201).json("ok");
     } else {
       res.status(400).json("Restaurant not found");
     }
-    res.status(201).json("ok");
   } catch (error) {
     res.status(400).json({
       error: error.message,

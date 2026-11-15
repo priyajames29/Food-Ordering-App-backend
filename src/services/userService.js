@@ -45,8 +45,11 @@ export async function getUserFromId(params) {
 }
 
 export async function updateUserService(id, body) {
-  const hashedPassword = await hashPassword(body.password);
-  return User.update({ ...body, password: hashedPassword }, { where: { id } });
+  if(body.password){
+    const hashedPassword = await hashPassword(body.password);
+    body.password = hashedPassword;
+  }
+  return User.update({ ...body }, { where: { id } });
 }
 
 export async function deleteUserService(id) {

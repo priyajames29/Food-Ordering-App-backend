@@ -2,7 +2,7 @@ import notificationQueue from "../queues/notificationQueue.js";
 
 export async function queueOrderPlacedNotification({
   customerEmail,
-  restaurantEmail,
+  // restaurantEmail,
   orderId,
 }) {
   console.log("starting queue");
@@ -10,7 +10,7 @@ export async function queueOrderPlacedNotification({
     "ORDER_PLACED",
     {
       customerEmail,
-      restaurantEmail,
+      // restaurantEmail,
       orderId,
     },
     {

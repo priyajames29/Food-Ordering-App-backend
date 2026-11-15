@@ -18,7 +18,7 @@ export async function placeOrder(req, res) {
 
     await queueOrderPlacedNotification({
       customerEmail: req.user.email,
-      restaurantEmail: order.restaurantEmail,
+      // restaurantEmail: order.restaurantEmail,
       orderId: order.id,
     });
 
